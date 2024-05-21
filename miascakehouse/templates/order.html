@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- Display details of Shopping Cart -->
+<section>  
+    <div class="container">
+        <div class="row mt-5 mb-3">
+            <div class = "col-md-6 offset-md-3">
+                <div class="text-center" style="color:rgb(135, 70, 43)">
+                    <h2 class="font-weight-bold"> SHOPPING CART</h2>
+                </div>
+            </div>
+        </div>
+       
+        {% for cake in order.cakes %}
+        <div class="row shadow-md my-row mb-3">
+
+                <!-- Display cake details include cake name, image, description, size, serves -->
+                <div class="col-md-6 offset-md-3">
+                    <h5 class="card-header" style="color:rgb(135, 70, 43)" >{{cake.name}}</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <img class="img-thumbnail" src="{{url_for('static', filename=('image/' + cake.image))}}">
+                            </div>
+                            <div class="col-8">
+                                <p class="card-text" style="color:rgb(135, 70, 43)"> {{cake.description}}</p>   
+                                <h6 class="card-text" style="color:rgb(135, 70, 43)">Size: {{cake.size}} </h6>
+                                <h6 class="card-text" style="color:rgb(135, 70, 43)">Serves: {{cake.serves}} </h6>
+                            </div>  
+                        </div>                      
+                    </div>
+                </div>
+                <br></br>
+
+                <!-- Display Price and Delete button -->
+                <div class="col-sm-3">
+                        <h5 style="color:rgb(135, 70, 43)">{{ "$%.2f"|format(cake.price) }}</h5>
+                        <form method="POST" action="{{url_for('main.deleteorderitem')}}">
+                            <input type="hidden" id="id" name="id" value="{{cake.id}}">
+                            <input type="submit" value="Delete" class="btn btn-warning mb-3" style="color:rgb(135, 70, 43)">
+                        </form> 
+                </div>
+        </div>
+        {% endfor %}
+        
+        <!-- Display Total Price and page controls -->
+        <section>
+            <div class="col-md-6 offset-md-3 mt-3 mb-3">
+                <h5 class="mt-4" style="color:rgb(135, 70, 43)">Total price = {{ "$%.2f"|format(totalprice) }}</h5>
+            </div>
+        
+            <div class="rcol-md-6 offset-md-3 mt-3 mb-5">
+                <a href="{{ url_for('main.index', _anchor='categories_anchor') }}" class="btn btn-warning mr-4" style="color:rgb(135, 70, 43)">Continue shopping</a>
+                
+                <!-- Only display Checkout and Empty Cart button if cart is NOT empty -->
+                {% if order.cakes %}
+                <a href="{{ url_for('main.checkout') }}" class="btn btn-warning mr-4" style="color:rgb(135, 70, 43)">Checkout</a>
+                <a href="{{ url_for('main.deleteorder') }}" class="btn btn-warning" style="color:rgb(135, 70, 43)">Empty Cart</a>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

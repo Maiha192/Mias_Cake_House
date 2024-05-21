@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- Display all cakes in each category -->
+<section>
+<div class="container">
+    <div class="row mt-5 mb-3">
+        <div class = "col-md-6 offset-md-3 text-center">
+            <div class="font-weight-bold" style="color:rgb(135, 70, 43)">
+                <h2><strong>EXPLORE OUR BEAUTIFUL CAKES</strong></h2>
+            </div>
+        </div>
+    </div>       
+    <div class="card-deck">
+        {% for cake in cakes%}
+        <!-- Display cake details including image, description, size, serves, price -->
+        <div class="card mx-2 my-5">
+            <img class="card-img-top" src="{{url_for('static', filename='image/'+cake.image)}}" alt="Cake image">
+            <div class="card-body">
+                <h4 class="card-title" style="color:rgb(135, 70, 43)">{{cake.name}}</h4>
+                <p class="card-text" style="color:rgb(135, 70, 43)">{{cake.description}}</p>
+                <h6 class="card-text" style="color:rgb(135, 70, 43)">Size: {{cake.size}}</h6>
+                <h6 class="card-text" style="color:rgb(135, 70, 43)">Serves: {{cake.serves}}</h6>
+                <h6 class="card-text" style="color:rgb(135, 70, 43)">Price: {{"$%.2f"|format(cake.price)}}</h6>
+            </div>
+
+            <!-- Display Add to Cart function -->
+            <div class="card-footer">
+                <form action="{{ url_for('main.order') }}">
+                    <input type="hidden" id="cake_id" name="cake_id" value="{{ cake.id }}">
+                    <input class="btn btn-warning" style="color:rgb(135, 70, 43)" type="submit" value="Add to Cart">
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+{% endblock %}

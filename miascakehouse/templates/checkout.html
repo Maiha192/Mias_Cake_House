@@ -1,0 +1,39 @@
+rr{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block main %}
+<!-- Display Checkout Form -->
+<section>
+    <div class="container">
+        <div class="row mt-5 mb-3">
+            <div class = "col-md-6 offset-md-3 text-center">
+                <div class="font-weight-bold" style="color:rgb(135, 70, 43)">
+                    <h2><strong> CHECKOUT</strong></h2>
+                </div>
+                <p style="color:rgb(135, 70, 43)">
+                    Please provide your details below to complete your order. Thank you!
+                </p>
+            </div>
+        </div>
+        <div class="row mt-3 mb-5">
+            <div class = "col-md-6 offset-md-3">
+                <form class="form form-horizontal" method="post" role="form">
+                    {{ form.hidden_tag() }}
+                    {{ wtf.form_errors(form, hiddens="only") }}
+                    <div style="color:rgb(135, 70, 43)"">
+                        {{ wtf.form_field(form.firstname) }}
+                        {{ wtf.form_field(form.lastname) }}
+                        {{ wtf.form_field(form.email) }}
+                        {{ wtf.form_field(form.phone) }}
+                        {{ wtf.form_field(form.deliverydate) }}
+                        {{ wtf.form_field(form.deliveryaddress) }}
+                    </div>
+                    <button type="submit" class="btn btn-warning">
+                        {{ wtf.form_field(form.submit) }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

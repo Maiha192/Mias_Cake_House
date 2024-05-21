@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<section>  
+    <div class="container">
+        <div class="col-md-6 offset-md-3 mt-3 mb-3mt-4 mb-4" style="color:rgb(135, 70, 43)">
+            <h2>Search result(s) for: <em>{{searched}}</em></h2>
+        </div>
+    
+        <!-- Display search results -->
+        {% if cakes %}
+        
+        {%for cake in cakes%}
+        <div class="row mt-3 mb-3">
+
+            <!-- Display search results with cake name (with link to cake details page), description, size, serves -->
+            <div class="col-sm-10 card">
+                <a href= "{{ url_for('main.categorycakes', categoryid=cake.category_id) }}" class="card-header" style="color:rgb(135, 70, 43)" ><strong>{{cake.name}}</strong></a>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-2">
+                            <img class="img-thumbnail" src="{{url_for('static', filename=('image/' + cake.image))}}">
+                        </div>
+                        <div class="col-10">
+                            <p class="card-text" style="color:rgb(135, 70, 43)"> {{cake.description}}</p>  
+                            <p class="card-text" style="color:rgb(135, 70, 43)">Size: {{cake.size}}</p>
+                            <p class="card-text" style="color:rgb(135, 70, 43)">Serves: {{cake.serves}}</p> 
+                        </div>  
+                    </div>                      
+                </div>
+            </div>
+            <br></br>
+
+            <!-- Display Price and Add to Cart button -->
+            <div class="col-sm-2">
+                    <h5 style="color:rgb(135, 70, 43)">{{"$%.2f"|format(cake.price)}}</h5>
+                    <form action="{{ url_for('main.order') }}">
+                        <input type="hidden" id="cake_id" name="cake_id" value="{{ cake.id }}">
+                        <input class="btn btn-warning" style="color:rgb(135, 70, 43)" type="submit" value="Add to Cart">
+                    </form>
+            </div>
+        </div>
+        
+        {% endfor %}
+
+        {% else %}
+        <div class="col-md-6 offset-md-3 mt-3 mb-3 mt-4 mb-4">   
+            <h5 style="color:rgb(135, 70, 43)">Sorry, <strong>{{searched}}</strong> was not found!</h5>
+        </div>
+        {% endif %}
+    </div>  
+</section>
+{% endblock %}
